@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg Usage & Open Source License - VidKit</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h1 { color: #1a73e8; margin-bottom: 10px; border-bottom: 2px solid #e8eaed; padding-bottom: 15px; }
+        h2 { color: #202124; margin-top: 30px; font-size: 1.4em; }
+        h3 { color: #3c4043; font-size: 1.1em; margin-top: 20px; }
+        .badge {
+            display: inline-block;
+            background-color: #e8f0fe;
+            color: #1967d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .process-box {
+            background-color: #f1f3f4;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #34a853;
+            margin: 20px 0;
+        }
+        .process-step { margin-bottom: 10px; display: flex; align-items: start; }
+        .process-icon { margin-right: 10px; font-size: 1.2em; }
+
+        /* Code block styling */
+        .code-block {
+            background-color: #2d3436;
+            color: #dfe6e9;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: "Consolas", "Monaco", monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border-left: 4px solid #e17055; /* Orange for technical */
+            margin: 15px 0;
+        }
+
+        .compliance-box {
+            border: 1px solid #dadce0;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #fff;
+            margin-top: 30px;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: background-color 0.2s;
+        }
+        .cta-button:hover { background-color: #1557b0; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .footer { margin-top: 40px; font-size: 0.8em; text-align: center; color: #5f6368; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <span class="badge">TRANSPARENCY REPORT & TECHNICAL DISCLOSURE</span>
+    <h1>Technology & Open Source</h1>
+    <p>At <strong>VidKit</strong>, we believe in transparency regarding the technology that powers our application and how we handle your data. This document details our use of the FFmpeg framework and our compliance with open-source licenses.</p>
+
+    <h2>1. The Engine: FFmpeg</h2>
+    <p>VidKit is powered by customized binaries of <strong>FFmpeg</strong>, a leading multimedia framework capable of decoding, encoding, transcoding, and playing multimedia files.</p>
+
+    <p>We utilize these libraries to perform core tasks locally on your device:</p>
+    <ul>
+        <li><strong>Video Compression:</strong> Using advanced codecs like H.264 (x264) and H.265 (x265) to optimize file size.</li>
+        <li><strong>Format Conversion:</strong> Converting between containers (MP4, AVI, MKV, etc.).</li>
+        <li><strong>Audio Processing:</strong> Extracting and converting audio using codecs like LAME (MP3), Opus, and Vorbis.</li>
+    </ul>
+
+    <h2>2. Build Configuration & Reproducibility</h2>
+    <p>To ensure stability and performance on Android devices, we build our FFmpeg binaries using the <strong>ffmpeg-kit</strong> wrapper (maintained by Arthenica). We believe in the open-source philosophy of reproducibility.</p>
+
+    <p><strong>Upstream Source:</strong> <a href="https://github.com/arthenica/ffmpeg-kit" target="_blank">https://github.com/arthenica/ffmpeg-kit</a></p>
+
+    <p><strong>Our Specific Build Command:</strong><br>
+        The specific libraries included in VidKit were compiled using the following configuration script:</p>
+
+    <div class="code-block">./android.sh --disable-arm-v7a-neon --enable-gpl --enable-x264 --enable-x265 --enable-libvpx --enable-libaom --enable-opus --enable-libvorbis --enable-lame --enable-soxr --enable-libwebp --enable-android-media-codec</div>
+
+    <p><strong>Configuration Breakdown:</strong></p>
+    <ul>
+        <li><code>--enable-gpl</code>: Activates GPL licensed components.</li>
+        <li><code>--enable-x264</code> & <code>--enable-x265</code>: Enables high-efficiency video coding (AVC & HEVC).</li>
+        <li><code>--enable-lame</code>: Enables high-quality MP3 encoding.</li>
+        <li><code>--enable-android-media-codec</code>: Utilizes Android's native hardware acceleration for faster processing and lower battery consumption.</li>
+        <li>Other enabled libraries: libvpx/libaom (WebM/AV1), opus/vorbis (Audio), soxr (Resampling), libwebp (Images).</li>
+    </ul>
+
+    <h2>3. Privacy First Architecture</h2>
+    <div class="process-box">
+        <h3>🔒 100% Offline Processing</h3>
+        <div class="process-step">
+            <span class="process-icon">📂</span>
+            <div><strong>Input:</strong> The app reads files directly from your device's storage.</div>
+        </div>
+        <div class="process-step">
+            <span class="process-icon">⚙️</span>
+            <div><strong>Processing:</strong> The FFmpeg binaries described above run locally on your CPU/GPU. <strong>No video data is ever uploaded to any server.</strong></div>
+        </div>
+        <div class="process-step">
+            <span class="process-icon">💾</span>
+            <div><strong>Output:</strong> Results are saved directly back to your device.</div>
+        </div>
+    </div>
+
+    <h2>4. License Compliance (GPLv3)</h2>
+    <div class="compliance-box">
+        <h3>Written Offer for Source Code</h3>
+        <p>This application uses code from FFmpeg licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GNU General Public License v3.0 (GPLv3)</a> and its dependencies (x264, x265, LAME, etc.).</p>
+
+        <p>We do not claim ownership of these open-source libraries. They remain the property of their respective authors.</p>
+
+        <p><strong>Your Right to the Source Code:</strong><br>
+            In accordance with the GPLv3, if you wish to obtain the complete corresponding source code for the binaries we distributed (including the build scripts and any modifications we made), you may request it from us.</p>
+
+        <p>This offer is valid to anyone in receipt of this information for a period of three years from our last distribution of the application.</p>
+
+        <a href="mailto:amberjsc263@gmail.com?subject=GPL%20Source%20Code%20Request" class="cta-button">Request Source Code via Email</a>
+
+        <p style="font-size: 0.9em; margin-top: 15px; color: #666;"><em>Upon request, we will provide a link to download the source archive containing the FFmpeg source, external libraries source, and build scripts used to generate our libffmpeg.so files.</em></p>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 VidKit Team. All rights reserved.<br>
+        <a href="privacy_policy.html">Back to Privacy Policy</a>
+    </div>
+</div>
+
+</body>
+</html>
